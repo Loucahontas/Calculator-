@@ -11,3 +11,8 @@ digitButtons.forEach(btn => {
     display.textContent = isZero ? digit : display.textContent + digit;
   });
 });
+
+const clearBtn = document.getElementById('clear');
+clearBtn.addEventListener('click', () => {
+  display.textContent = '0';
+});
