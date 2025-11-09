@@ -5,6 +5,7 @@ const display = document.getElementById('display');
 let firstNumber = null;
 let currentOp = null;
 let lastWasOp = false;
+let shouldClearOnNextDigit = false;
 
 
 const digitButtons = document.querySelectorAll('[data-digit]');
@@ -12,6 +13,13 @@ digitButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     lastWasOp = false;
     const digit = btn.dataset.digit;
+
+    if (shouldClearOnNextDigit) {
+      display.textContent = digit;    
+      shouldClearOnNextDigit = false;  
+      return;
+    }
+
     const isZero = display.textContent === '0';
     display.textContent = isZero ? digit : display.textContent + digit;
   });
@@ -48,7 +56,8 @@ equalsBtn.addEventListener('click', () => {
   if (currentOp && firstNumber !== null) {
     const result = operate(currentOp, firstNumber, secondNumber);
     display.textContent = String(result);
-    firstNumber = null;
-    currentOp = null;
+firstNumber = null;
+currentOp = null;
+shouldClearOnNextDigit = true; 
   }
 });
