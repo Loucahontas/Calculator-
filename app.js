@@ -38,12 +38,26 @@ clearBtn.addEventListener('click', () => {
 const opButtons = document.querySelectorAll('[data-op]');
 opButtons.forEach(btn => {
   btn.addEventListener('click', () => {
+    const nextOp = btn.dataset.op;                
+    const currentValue = Number(display.textContent);
+
     if (lastWasOp) {
-      currentOp = btn.dataset.op; 
+      currentOp = nextOp;
       return;
     }
-    firstNumber = Number(display.textContent);
-    currentOp = btn.dataset.op;
+
+
+    if (currentOp && firstNumber !== null) {
+      const result = operate(currentOp, firstNumber, currentValue);
+      display.textContent = String(result);       
+      firstNumber = result;                       
+      currentOp = nextOp;                       
+      shouldClearOnNextDigit = true;              
+      lastWasOp = true;                           
+      return;
+    }
+    firstNumber = currentValue;
+    currentOp = nextOp;
     display.textContent = '0';
     lastWasOp = true;
   });
